@@ -1,7 +1,7 @@
-<form action="{{isset($produto_detalhe->id) ? route('produto-detalhe.update',['produto'=>$produto_detalhe->id]) : route("produto-detalhe.store")}}" method="post">
+<form action="{{isset($produto_detalhe->id) ? route('produto-detalhe.update',['produto_detalhe'=>$produto_detalhe ]) : route("produto-detalhe.store")}}" method="post">
     @csrf
     @if(isset($produto_detalhe->id))
-        @method("PUT");
+        @method("PUT")
     @endif
     <input type="text" name="produto_id" placeholder="ID do produto" value="{{ $produto_detalhe->produto_id ?? old('produto_id')}}" class="borda-preta">
         {{ $errors->has('produto_id') ? $errors->first('produto_id') : ''}}
