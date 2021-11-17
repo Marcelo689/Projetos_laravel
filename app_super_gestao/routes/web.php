@@ -40,6 +40,7 @@ Route::middleware('autenticacao:padrao,Marcelo')->prefix('/app')->group(function
     Route::get('/fornecedor/listar', 'FornecedorController@listar')->name('app.fornecedor.listar');    
 
     Route::resource('produto','ProdutoController');
+    Route::resource('produto-detalhe','ProdutoDetalheController');
 });
 
 Route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('site.teste');
