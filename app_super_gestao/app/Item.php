@@ -12,4 +12,9 @@ class Item extends Model
     public function ItemDetalhe(){
         return $this->hasOne('App\ItemDetalhe','produto_id','id');
     }
+    public function fornecedor(){
+        // passando modelo que contem foreign key de relacionamento
+        //return $this->belongsTo('App\Fornecedor','fornecedor_id','id');
+        return $this->belongsTo('App\Fornecedor');
+    }
 }
