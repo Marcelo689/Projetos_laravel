@@ -6,6 +6,7 @@ use App\Produto;
 use App\Item;
 use Illuminate\Http\Request;
 use App\Unidade;
+use App\Fornecedor;
 use App\ProdutoDetalhe;
 class ProdutoController extends Controller
 {
@@ -42,7 +43,8 @@ class ProdutoController extends Controller
     public function create()
     {
         $unidades = Unidade::all();
-        return view('app.produto.create',['unidades'=>$unidades]);
+        $fornecedores = Fornecedor::all();
+        return view('app.produto.create',['unidades'=>$unidades,'fornecedores'=>$fornecedores]);
     }
 
     /**
@@ -58,11 +60,13 @@ class ProdutoController extends Controller
             'descricao'=>'required',
             'peso'=>'required|integer',
             'unidade_id'=>'exists:unidades,id',
+            'fornecedor_id'=>'exists:fornecedores,id',
         ];
         $feedback = [
             'required'=>'O campo :attribute deve ser preenchido',
             'peso.integer'=>'O campo peso deve conter numeros inteiros',
             'unidade_id.exists'=>'A unidade de medida não existe',
+            'fornecedor_id.exists'=>'O fornecedor não existe',
         ];
         $request->validate($regras,$feedback);
         Produto::create($request->all());
@@ -90,7 +94,8 @@ class ProdutoController extends Controller
     public function edit(Produto $produto)
     {
         $unidades  = Unidade::all();
-        return view('app.produto.edit',['produto'=>$produto,'unidades'=>$unidades]);
+        $fornecedores = Fornecedor::all();
+        return view('app.produto.edit',['produto'=>$produto,'unidades'=>$unidades,'fornecedores'=>$fornecedores]);
         //return view('app.produto.create',['produto'=>$produto,'unidades'=>$unidades]);
     }
 
@@ -101,8 +106,22 @@ class ProdutoController extends Controller
      * @param  \App\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Produto $produto)
+    public function update(Request $request, Item $produto)
     {
+        $regras =[
+            'nome'=>'required',
+            'descricao'=>'required',
+            'peso'=>'required|integer',
+            'unidade_id'=>'exists:unidades,id',
+            'fornecedor_id'=>'exists:fornecedores,id',
+        ];
+        $feedback = [
+            'required'=>'O campo :attribute deve ser preenchido',
+            'peso.integer'=>'O campo peso deve conter numeros inteiros',
+            'unidade_id.exists'=>'A unidade de medida não existe',
+            'fornecedor_id.exists'=>'O fornecedor não existe',
+        ];
+        $request->validate($regras,$feedback);
         $produto->update($request->all());
         return redirect()->route('produto.show',['produto'=>$produto->id]);
     }
