@@ -1,16 +1,16 @@
 @extends('app.layouts.basico')
 
-@section('titulo', 'Produto')
+@section('titulo', 'Cliente')
 
 @section('conteudo')
     <div class="conteudo-pagina">
         <div class="titulo-pagina-2">
-            <p>Detalhes do Produto</p>
+            <p>Detalhes do Cliente</p>
         </div>
 
         <div class="menu">
             <ul>
-                <li><a href="{{ route('produto.index')}}">Voltar</a></li>
+                <li><a href="{{ route('cliente.index')}}">Voltar</a></li>
                 <li><a href="">Consulta</a></li>
             </ul>
         </div>
@@ -21,21 +21,12 @@
                     <table style='text-align:left;' border="1">
                         <tr>
                             <td>ID:</td>
-                            <td>{{$produto->id}}</td>
+                            <td>{{$cliente->id}}</td>
                         </tr>
                         <tr>
-                            <td>Descrição</td>
-                            <td>{{$produto->descricao}}</td>
+                            <td>Nome</td>
+                            <td>{{$cliente->nome}}</td>
                         </tr>
-                        <tr>
-                            <td>Peso</td>
-                            <td>{{$produto->peso}} Kg</td>
-                        </tr>
-                        <tr>
-                            <td>Unidade de medida</td>
-                            <td>{{$produto->unidade_id}}</td>
-                        </tr>
-
                     </table>
                 </div>
         </div>

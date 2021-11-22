@@ -25,7 +25,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        
+        return view('app.cliente.create');
     }
 
     /**
@@ -36,7 +36,22 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $regras = [
+            'nome'=>'required|min:3',
+        ];
+        $feedback = [
+            'nome.min'=>"O campo nome deve ter no mínimo 3 caracteres",
+            'required'=> "O campo :attribute deve ser preenchido"
+        ];
+
+        $request->validate($regras,$feedback);
+        $cliente = new Cliente();
+
+        $cliente->nome = $request->get('nome');
+        $cliente->save();
+        //Cliente::create($request->all());
+
+        return redirect()->route('cliente.index');
     }
 
     /**
@@ -47,7 +62,8 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        //
+        $cliente = Cliente::find($id);
+        return view('app.cliente.show',['cliente'=>$cliente]);
     }
 
     /**
@@ -58,7 +74,8 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cliente = Cliente::find($id);
+        return view('app.cliente.edit',['cliente'=>$cliente]);
     }
 
     /**
@@ -70,7 +87,17 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $regras = [
+            'nome'=>'required|min:3',
+        ];
+        $feedback = [
+            'nome.min'=>"O campo nome deve ter no mínimo 3 caracteres",
+            'required'=> "O campo :attribute deve ser preenchido"
+        ];
+
+        $request->validate($regras,$feedback);
+        Cliente::find($id)->update($request->all());
+        return redirect()->route('cliente.index');
     }
 
     /**
@@ -81,6 +108,10 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cliente = Cliente::find($id);
+
+        $cliente->delete();
+
+        return redirect()->route('cliente.index');
     }
 }
