@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Pedido;
+use App\Cliente;
 class PedidoController extends Controller
 {
     /**
@@ -11,9 +12,10 @@ class PedidoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $pedidos = Pedido::paginate(10);
+        return view("app.pedido.index",['pedidos'=>$pedidos,'request'=>$request->all()]);
     }
 
     /**
@@ -23,7 +25,8 @@ class PedidoController extends Controller
      */
     public function create()
     {
-        //
+        $clientes = Cliente::all();
+        return view('app.pedido.create',['clientes'=>$clientes]);
     }
 
     /**
@@ -34,7 +37,21 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $regras = [
+            'cliente_id'=>'exists:clientes,id',
+        ];
+        $feedback = [
+            'cliente_id.exists'=>"O campo Cliente deve ser preenchido"
+        ];
+
+        $request->validate($regras,$feedback);
+        $pedido = new Pedido();
+
+        $pedido->cliente_id = $request->get('cliente_id');
+        $pedido->save();
+        //Pedido::create($request->all());
+
+        return redirect()->route('pedido.index');
     }
 
     /**
@@ -45,7 +62,8 @@ class PedidoController extends Controller
      */
     public function show($id)
     {
-        //
+        $pedido = Pedido::find($id);
+        return view('app.pedido.show',['pedido'=>$pedido]);
     }
 
     /**
@@ -56,7 +74,9 @@ class PedidoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $clientes = Cliente::all();
+        $pedido = Pedido::find($id);
+        return view('app.pedido.edit',['pedido'=>$pedido,'clientes'=>$clientes]);
     }
 
     /**
@@ -68,7 +88,15 @@ class PedidoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $regras = [
+            'cliente_id'=>'exists:clientes,id',
+        ];
+        $feedback = [
+            'cliente_id.exists'=>"O campo deve ser preenchido com um Cliente válido"
+        ];
+        $request->validate($regras,$feedback);
+        Pedido::find($id)->update($request->all());
+        return redirect()->route('pedido.index');
     }
 
     /**
@@ -79,6 +107,10 @@ class PedidoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pedido = Pedido::find($id);
+
+        $pedido->delete();
+
+        return redirect()->route('pedido.index');
     }
 }
