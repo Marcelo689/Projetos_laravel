@@ -21,6 +21,8 @@
                         <table border="1" width='100%'>
                             <thead>
                                     <th>Id</th>
+                                    <th>Id do Cliente</th>
+                                    <th></th>
                                     <th>Cliente</th>
                                     <th></th>
                                     <th></th>
@@ -29,9 +31,11 @@
                             <tbody>
                                 @foreach($pedidos as $pedido)
                                     <tr>
-                                        <td>{{ $pedido->nome}}</td>
+                                        <td>{{ $pedido->id}}</td>
+                                        <td>{{ $pedido->cliente_id}}</td>
+                                        <td><a href="{{ route('pedido-produto.create',[ 'pedido'=> $pedido->id ])}}">Adicionar Produtos</a></td>
                                         <td>{{ $pedido->cliente->nome}}</td>
-                                        <td><a href="{{ route('pedido.show',['pedido'=>$pedido->id] )}}">Visualizar</a></td>
+                                        <td><a href="{{ route('pedido.show',['pedido' => $pedido->id] )}}">Visualizar</a></td>
                                         <td>
                                             <form id="form_{{$pedido->id}}" method="post" action="{{ route('pedido.destroy',['pedido'=> $pedido->id])}}">
                                                 @method("DELETE")
@@ -42,6 +46,8 @@
                                         </td>
                                         <td><a href="{{ route('pedido.edit',['pedido'=>$pedido->id] )}}">Editar</a></td>
                                     </tr>
+                               
+                                
                                 @endforeach
                             </tbody>
                         </table>

@@ -14,7 +14,7 @@ class PedidoController extends Controller
      */
     public function index(Request $request)
     {
-        $pedidos = Pedido::paginate(10);
+        $pedidos = Pedido::with(['produtos'])->paginate(10);
         return view("app.pedido.index",['pedidos'=>$pedidos,'request'=>$request->all()]);
     }
 
@@ -49,7 +49,7 @@ class PedidoController extends Controller
 
         $pedido->cliente_id = $request->get('cliente_id');
         $pedido->save();
-        //Pedido::create($request->all());
+        //Pedido::with(['produtos'])->create($request->all());
 
         return redirect()->route('pedido.index');
     }
