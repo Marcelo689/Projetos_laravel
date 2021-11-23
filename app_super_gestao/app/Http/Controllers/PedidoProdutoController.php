@@ -39,16 +39,20 @@ class PedidoProdutoController extends Controller
     {
         $regras = [
             'produto_id'=>'exists:produtos,id',
+            'quantidade'=>'required',
         ];
         $feedback = [
             'produto_id.exists'=>'O campo deve existir na tabela produto',
+            'required'=> 'O campo :attribute deve ser preenchido',
         ];
         $request->validate($regras,$feedback);
-        $pedido_produto = new PedidoProduto();
-        $pedido_produto->pedido_id  = $pedido->id;
-        $pedido_produto->produto_id = $request->get('produto_id');
+        // $pedido_produto = new PedidoProduto();
+        // $pedido_produto->pedido_id  = $pedido->id;
+        // $pedido_produto->produto_id = $request->get('produto_id');
+        // $pedido_produto->quantidade = $request->get('quantidade');
 
-        $pedido_produto->save();
+        // $pedido_produto->save();
+        $pedido->produtos()->attach($request->get('produto_id'),['quantidade'=> $request->get('quantidade')]);
         return redirect()->route('pedido-produto.create',['pedido'=>$pedido]);
     }
 
