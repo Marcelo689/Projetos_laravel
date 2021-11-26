@@ -96,12 +96,13 @@ class PedidoProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pedido $pedido,Produto $produto)
+    public function destroy($id,Pedido $pedido)
     {
         // $pedido_produto =PedidoProduto::where(['pedido_id'=>$pedido->id,'produto_id'=>$produto->id]);
         // $pedido_produto->delete();
 
-        $pedido->produtos()->detach($produto->id);
+        // $pedido->produtos()->detach($produto->id);
+        PedidoProduto::find($id)->delete();
         return redirect()->route('pedido-produto.create',['pedido'=>$pedido]);
     }
 }
