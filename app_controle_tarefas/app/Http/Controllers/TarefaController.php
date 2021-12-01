@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class TarefaController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +15,7 @@ class TarefaController extends Controller
      */
     public function index()
     {
-        //
+        echo "Invadi o index de tarefa";
     }
 
     /**
